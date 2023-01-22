@@ -2,8 +2,11 @@ package app.groopy.gateway.traits
 
 import app.groopy.protobuf.UserServiceProto
 import app.groopy.protobuf.RoomServiceProto
+import app.groopy.protobuf.GatewayProto
+import com.google.protobuf.Any
 import com.google.protobuf.LazyStringArrayList
-import com.google.protobuf.LazyStringList
+import com.google.protobuf.Message
+import com.google.protobuf.Struct
 
 trait SampleProtoData {
 
@@ -186,5 +189,9 @@ trait SampleProtoData {
             builder[key] = value
         })
         return builder.build()
+    }
+
+    GatewayProto.GatewayResponse sampleGatewayResponse(Message content) {
+        return GatewayProto.GatewayResponse.newBuilder().setResponse(Any.newBuilder().setValue(content.toByteString()).build()).build()
     }
 }
