@@ -1,0 +1,19 @@
+version: '2.1'
+services:
+
+  gateway:
+    build: .
+    ports:
+      - "8095:8095"
+    expose:
+      - '8095'
+    networks:
+      - infrastructure
+
+networks:
+  infrastructure:
+    driver: bridge
+
+#volumes:
+#    cache:
+#      driver: local

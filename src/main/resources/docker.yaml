@@ -1,0 +1,11 @@
+server:
+  address: 0.0.0.0
+  port: 8095
+spring:
+  application.name: groopy-gateway
+
+room-service:
+  host: "localhost:8090"
+
+user-service:
+  host: "localhost:8091"

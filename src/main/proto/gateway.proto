@@ -1,0 +1,13 @@
+syntax = "proto3";
+import "google/protobuf/struct.proto";
+package roomservice;
+option java_package = "app.groopy.protobuf";
+option java_outer_classname = "GatewayProto";
+
+message GatewayResponse {
+  google.protobuf.Struct response = 1;
+}
+
+message GatewayErrorResponse {
+  string description = 1;
+}
