@@ -7,10 +7,11 @@ import app.groopy.protobuf.UserServiceProto;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
-//TODO move this class into a separate library??
-
-@Component
-public class GrpcProvider {
+/**
+ * The gRPC implementation for the InternalServiceProvider. It uses the gRPC services to return the expected responses
+ */
+@Component("gRPCProvider")
+public class GrpcProvider implements InternalServiceProvider {
 
     @GrpcClient("userService")
     UserServiceGrpc.UserServiceBlockingStub userServiceStub;
