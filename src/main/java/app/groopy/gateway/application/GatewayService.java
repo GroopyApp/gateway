@@ -29,7 +29,7 @@ public class GatewayService {
 
     @SneakyThrows
     public Message get(GatewayProto.GatewayRequest protoRequest) {
-//        validator.validate(protoRequest);
+        validator.validate(protoRequest);
         try {
             return switch (protoRequest.getRequestCase()) {
                 case SIGNINREQUEST -> infrastructureService.signIn(protoRequest.getSignInRequest());
@@ -37,7 +37,7 @@ public class GatewayService {
                 case LISTROOMREQUEST -> infrastructureService.searchRooms(protoRequest.getListRoomRequest());
                 case CREATEROOMREQUEST -> infrastructureService.createRoom(protoRequest.getCreateRoomRequest());
                 case SUBSCRIBEROOMREQUEST -> infrastructureService.subscribeToRoom(protoRequest.getSubscribeRoomRequest());
-                //TODO add list user room request
+                case USERROOMSREQUEST -> infrastructureService.listRoom(protoRequest.getUserRoomsRequest());
                 default -> throw new PayloadNotAllowedException(protoRequest);
             };
         } catch (InfrastructureException ex) {

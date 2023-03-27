@@ -38,6 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .add(GatewayProto.GatewayRequest.getDescriptor())
                 .add(GatewayProto.GatewayResponse.getDescriptor())
                 .add(GatewayProto.GatewayErrorResponse.getDescriptor())
+                .add(GatewayProto.UserRoomsRequest.getDescriptor())
                 .add(RoomServiceProto.CreateRoomRequest.getDescriptor())
                 .add(RoomServiceProto.ListRoomRequest.getDescriptor())
                 .add(RoomServiceProto.SubscribeRoomRequest.getDescriptor())

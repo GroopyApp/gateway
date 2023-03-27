@@ -24,7 +24,7 @@ public class GatewayController {
         this.gatewayService = gatewayService;
     }
 
-    @PostMapping(value = "/gateway",
+    @PostMapping(value = "/request",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GatewayProto.GatewayResponse> gateway(@RequestBody GatewayProto.GatewayRequest payload) {

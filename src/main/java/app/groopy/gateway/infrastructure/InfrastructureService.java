@@ -2,10 +2,7 @@ package app.groopy.gateway.infrastructure;
 
 import app.groopy.gateway.domain.models.GroopyService;
 import app.groopy.gateway.infrastructure.exceptions.InfrastructureException;
-import app.groopy.protobuf.RoomServiceGrpc;
-import app.groopy.protobuf.RoomServiceProto;
-import app.groopy.protobuf.UserServiceGrpc;
-import app.groopy.protobuf.UserServiceProto;
+import app.groopy.protobuf.*;
 import com.google.protobuf.Message;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.slf4j.Logger;
@@ -23,6 +20,7 @@ public class InfrastructureService {
     @GrpcClient("roomService")
     RoomServiceGrpc.RoomServiceBlockingStub roomServiceStub;
 
+    // RoomService calls
     public Message createRoom(RoomServiceProto.CreateRoomRequest req) throws InfrastructureException {
         try {
             return roomServiceStub.createRoom(req);
@@ -47,15 +45,17 @@ public class InfrastructureService {
         }
     }
 
-    public Message getUserRooms(String userId) throws InfrastructureException {
+    public Message listRoom(GatewayProto.UserRoomsRequest req) throws InfrastructureException {
         try {
             return roomServiceStub.listRoom(RoomServiceProto.ListRoomRequest.newBuilder()
-                    .setUserId(userId)
+                    .setUserId(req.getUserId())
                     .build());
         } catch (Exception e) {
             throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
-        }    }
+        }
+    }
 
+    // UserService calls
     public Message signUp(UserServiceProto.SignUpRequest req) throws InfrastructureException {
         try {
             return userServiceStub.signUp(req);
