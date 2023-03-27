@@ -4,7 +4,7 @@ public class RoomServiceException extends Throwable {
 
 
     public RoomServiceException(String errorMessage) {
-        super(String.format("An error occurred invoking room-service. exception: %s", errorMessage));
+        super(String.format("An error occurred: %s", errorMessage));
 
     }
 }

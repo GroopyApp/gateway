@@ -1,9 +1,12 @@
 package app.groopy.gateway.config;
 
+import app.groopy.protobuf.GatewayProto;
+import app.groopy.protobuf.RoomServiceProto;
 import app.groopy.protobuf.UserServiceProto;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.google.protobuf.Any;
 import com.google.protobuf.Message;
 import com.google.protobuf.util.JsonFormat;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -32,9 +35,15 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         JsonFormat.TypeRegistry typeRegistry = JsonFormat.TypeRegistry.newBuilder()
+                .add(GatewayProto.GatewayRequest.getDescriptor())
+                .add(GatewayProto.GatewayResponse.getDescriptor())
+                .add(GatewayProto.GatewayErrorResponse.getDescriptor())
+                .add(RoomServiceProto.CreateRoomRequest.getDescriptor())
+                .add(RoomServiceProto.ListRoomRequest.getDescriptor())
+                .add(RoomServiceProto.SubscribeRoomRequest.getDescriptor())
                 .add(UserServiceProto.SignUpRequest.getDescriptor())
-                .add(UserServiceProto.SignUpResponse.getDescriptor())
-                .add(UserServiceProto.UserDetailsResponse.getDescriptor())
+                .add(UserServiceProto.SignInRequest.getDescriptor())
+                .add(Any.getDescriptor())
                 .build();
 
         JsonFormat.Printer printer = JsonFormat.printer().usingTypeRegistry(typeRegistry)

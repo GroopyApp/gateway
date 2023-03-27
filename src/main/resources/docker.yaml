@@ -5,7 +5,7 @@ spring:
   application.name: groopy-gateway
 
 room-service:
-  host: "localhost:8090"
+  host: "http://localhost:8090/"
 
 user-service:
-  host: "localhost:8091"
+  host: "http://localhost:8091/"

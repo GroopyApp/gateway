@@ -72,7 +72,7 @@ class GatewayServiceTest extends Specification implements SampleProtoData {
         def protoListRoomResponse = sampleProtoListRoomResponse()
 
         and:
-        infrastructureService.listRoom(protoListRoomRequest) >> protoListRoomResponse
+        infrastructureService.searchRooms(protoListRoomRequest) >> protoListRoomResponse
 
         when:
         def response = testSubject.get(protoListRoomRequest)

@@ -5,8 +5,7 @@ import app.groopy.gateway.domain.exceptions.ExceptionResolver;
 import app.groopy.gateway.domain.exceptions.PayloadNotAllowedException;
 import app.groopy.gateway.infrastructure.InfrastructureService;
 import app.groopy.gateway.infrastructure.exceptions.InfrastructureException;
-import app.groopy.protobuf.RoomServiceProto;
-import app.groopy.protobuf.UserServiceProto;
+import app.groopy.protobuf.GatewayProto;
 import com.google.protobuf.Message;
 import lombok.SneakyThrows;
 import org.slf4j.Logger;
@@ -29,49 +28,21 @@ public class GatewayService {
     }
 
     @SneakyThrows
-    public Message get(Message protoRequest) {
-        validator.validate(protoRequest);
+    public Message get(GatewayProto.GatewayRequest protoRequest) {
+//        validator.validate(protoRequest);
         try {
-            if (protoRequest instanceof RoomServiceProto.CreateRoomRequest) {
-                return infrastructureService.createRoom((RoomServiceProto.CreateRoomRequest) protoRequest);
-            }
-            else if (protoRequest instanceof RoomServiceProto.SubscribeRoomRequest) {
-                return infrastructureService.subscribeToRoom((RoomServiceProto.SubscribeRoomRequest) protoRequest);
-            }
-            else if (protoRequest instanceof RoomServiceProto.ListRoomRequest) {
-                return infrastructureService.listRoom((RoomServiceProto.ListRoomRequest) protoRequest);
-            }
-            else if (protoRequest instanceof UserServiceProto.SignUpRequest) {
-                return infrastructureService.signUp((UserServiceProto.SignUpRequest) protoRequest);
-            }
-            else if (protoRequest instanceof UserServiceProto.SignInRequest) {
-                return infrastructureService.signIn((UserServiceProto.SignInRequest) protoRequest);
-            }
-            else {
-                throw new PayloadNotAllowedException(protoRequest);
-            }
-
+            return switch (protoRequest.getRequestCase()) {
+                case SIGNINREQUEST -> infrastructureService.signIn(protoRequest.getSignInRequest());
+                case SIGNUPREQUEST -> infrastructureService.signUp(protoRequest.getSignUpRequest());
+                case LISTROOMREQUEST -> infrastructureService.searchRooms(protoRequest.getListRoomRequest());
+                case CREATEROOMREQUEST -> infrastructureService.createRoom(protoRequest.getCreateRoomRequest());
+                case SUBSCRIBEROOMREQUEST -> infrastructureService.subscribeToRoom(protoRequest.getSubscribeRoomRequest());
+                //TODO add list user room request
+                default -> throw new PayloadNotAllowedException(protoRequest);
+            };
         } catch (InfrastructureException ex) {
             LOGGER.error(String.format("an error occurred trying to call internal service %s", ex.getServiceName()), ex);
             throw ExceptionResolver.resolve(ex);
-        }
-    }
-
-    @SneakyThrows
-    public Message getUserRooms(String userId) {
-        try {
-            return infrastructureService.getUserRooms(userId);
-        } catch (InfrastructureException e) {
-            throw ExceptionResolver.resolve(e);
-        }
-    }
-
-    @SneakyThrows
-    public void deleteAllUsers() {
-        try {
-            infrastructureService.deleteAllUsers();
-        } catch (InfrastructureException e) {
-            throw ExceptionResolver.resolve(e);
         }
     }
 }

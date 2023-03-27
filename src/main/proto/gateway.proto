@@ -1,11 +1,29 @@
 syntax = "proto3";
 import "google/protobuf/any.proto";
+import "user.proto";
+import "room.proto";
 package roomservice;
 option java_package = "app.groopy.protobuf";
 option java_outer_classname = "GatewayProto";
 
+message GatewayRequest {
+  oneof request {
+    userservice.SignInRequest signInRequest = 1;
+    userservice.SignUpRequest signUpRequest = 2;
+    roomservice.CreateRoomRequest createRoomRequest = 3;
+    roomservice.ListRoomRequest listRoomRequest = 4;
+    roomservice.SubscribeRoomRequest subscribeRoomRequest = 5;
+  }
+}
+
 message GatewayResponse {
-  google.protobuf.Any response = 1;
+  oneof response {
+    userservice.SignInResponse signInResponse = 1;
+    userservice.SignUpResponse signUpResponse = 2;
+    roomservice.CreateRoomResponse createRoomResponse = 3;
+    roomservice.ListRoomResponse listRoomResponse = 4;
+    roomservice.SubscribeRoomResponse subscribeRoomResponse = 5;
+  }
 }
 
 message GatewayErrorResponse {

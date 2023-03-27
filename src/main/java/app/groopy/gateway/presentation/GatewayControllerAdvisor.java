@@ -2,7 +2,6 @@ package app.groopy.gateway.presentation;
 
 import app.groopy.gateway.domain.exceptions.RoomServiceException;
 import app.groopy.gateway.domain.exceptions.UserServiceException;
-import app.groopy.gateway.domain.models.GatewayHTTPStatus;
 import app.groopy.protobuf.GatewayProto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class GatewayControllerAdvisor extends ResponseEntityExceptionHandler {
                 .setDescription(ex.getLocalizedMessage())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.valueOf(GatewayHTTPStatus.USER_SERVICE_ERROR.statusCode));
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(RoomServiceException.class)
@@ -33,6 +32,6 @@ public class GatewayControllerAdvisor extends ResponseEntityExceptionHandler {
                 .setDescription(ex.getLocalizedMessage())
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.valueOf(GatewayHTTPStatus.ROOM_SERVICE_ERROR.statusCode));
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
