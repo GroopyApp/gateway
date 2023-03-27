@@ -2,11 +2,12 @@ package app.groopy.gateway.infrastructure;
 
 import app.groopy.gateway.domain.models.GroopyService;
 import app.groopy.gateway.infrastructure.exceptions.InfrastructureException;
+import app.groopy.gateway.infrastructure.provider.GrpcProvider;
 import app.groopy.protobuf.*;
 import com.google.protobuf.Message;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,17 +15,14 @@ public class InfrastructureService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(InfrastructureService.class);
 
-    @GrpcClient("userService")
-    UserServiceGrpc.UserServiceBlockingStub userServiceStub;
-
-    @GrpcClient("roomService")
-    RoomServiceGrpc.RoomServiceBlockingStub roomServiceStub;
+    @Autowired
+    private GrpcProvider grpcProvider;
 
     // RoomService calls
     public Message createRoom(RoomServiceProto.CreateRoomRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending CreateRoom message to room-service {}", req.toString());
-            return roomServiceStub.createRoom(req);
+            return grpcProvider.createRoom(req);
         } catch (Exception e) {
             LOGGER.error("An error occurred trying to call room-service with: {}", req);
             throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
@@ -34,7 +32,7 @@ public class InfrastructureService {
     public Message subscribeToRoom(RoomServiceProto.SubscribeRoomRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending SubscribeRoom message to room-service {}", req.toString());
-            return roomServiceStub.subscribe(req);
+            return grpcProvider.subscribeRoom(req);
         } catch (Exception e) {
             LOGGER.error("An error occurred trying to call room-service with: {}", req);
             throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
@@ -44,7 +42,7 @@ public class InfrastructureService {
     public Message searchRooms(RoomServiceProto.ListRoomRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending ListRoomRequest message for search scope to room-service {}", req.toString());
-            return roomServiceStub.searchRoom(req);
+            return grpcProvider.searchRoom(req);
         } catch (Exception e) {
             LOGGER.error("An error occurred trying to call room-service with: {}", req);
             throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
@@ -54,7 +52,7 @@ public class InfrastructureService {
     public Message listRoom(GatewayProto.UserRoomsRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending ListRoomRequest message for user list rooms scope to room-service {}", req.toString());
-            return roomServiceStub.listRoom(RoomServiceProto.ListRoomRequest.newBuilder()
+            return grpcProvider.getUserRooms(RoomServiceProto.ListRoomRequest.newBuilder()
                     .setUserId(req.getUserId())
                     .build());
         } catch (Exception e) {
@@ -67,7 +65,7 @@ public class InfrastructureService {
     public Message signUp(UserServiceProto.SignUpRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending SignUpRequest message to user-service {}", req.toString());
-            return userServiceStub.signUp(req);
+            return grpcProvider.signUp(req);
         } catch (Exception e) {
             LOGGER.error("An error occurred trying to call user-service with: {}", req);
             throw new InfrastructureException(GroopyService.USER_SERVICE, e.getLocalizedMessage());
@@ -77,7 +75,7 @@ public class InfrastructureService {
     public Message signIn(UserServiceProto.SignInRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending SignUpRequest message to user-service {}", req.toString());
-            return userServiceStub.signIn(req);
+            return grpcProvider.signIn(req);
         } catch (Exception e) {
             LOGGER.error("An error occurred trying to call user-service with: {}", req);
             throw new InfrastructureException(GroopyService.USER_SERVICE, e.getLocalizedMessage());

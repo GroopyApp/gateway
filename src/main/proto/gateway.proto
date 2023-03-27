@@ -27,7 +27,6 @@ message GatewayResponse {
   }
 }
 
-
 message UserRoomsRequest {
   string user_id = 1;
 }
