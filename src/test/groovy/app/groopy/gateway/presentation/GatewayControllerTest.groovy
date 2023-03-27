@@ -30,11 +30,12 @@ class GatewayControllerTest extends Specification implements SampleProtoData {
         gatewayResponse.getBody() == sampleGatewayResponse(response)
 
         where:
-        request                           | response                            || requestName
-        sampleProtoSignUpRequest()        | sampleProtoSignUpResponse()         || "signUp"
-        sampleProtoSignInRequest()        | sampleProtoSignInResponse()         || "signIn"
-        sampleProtoCreateRoomRequest()    | sampleProtoCreateRoomResponse()     || "createRoom"
-        sampleProtoListRoomRequest()      | sampleProtoListRoomResponse()       || "listRoom"
-        sampleProtoSubscribeRoomRequest() | sampleProtoSubscribeRoomResponse()  || "subscribeRoom"
+        request                                                 | response                            || requestName
+        sampleGatewayRequest(sampleProtoSignUpRequest())        | sampleProtoSignUpResponse()         || "signUp"
+        sampleGatewayRequest(sampleProtoSignInRequest())        | sampleProtoSignInResponse()         || "signIn"
+        sampleGatewayRequest(sampleProtoCreateRoomRequest())    | sampleProtoCreateRoomResponse()     || "createRoom"
+        sampleGatewayRequest(sampleProtoListRoomRequest())      | sampleProtoListRoomResponse()       || "listRoom"
+        sampleGatewayRequest(sampleProtoUserRoomsRequest())     | sampleProtoListRoomResponse()       || "userRooms"
+        sampleGatewayRequest(sampleProtoSubscribeRoomRequest()) | sampleProtoSubscribeRoomResponse()  || "subscribeRoom"
     }
 }

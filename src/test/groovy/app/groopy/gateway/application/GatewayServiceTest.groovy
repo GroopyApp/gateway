@@ -27,7 +27,7 @@ class GatewayServiceTest extends Specification implements SampleProtoData {
         infrastructureService.signUp(protoSignUpRequest) >> protoSignUpResponse
 
         when:
-        def response = testSubject.get(protoSignUpRequest)
+        def response = testSubject.get(sampleGatewayRequest(protoSignUpRequest))
 
         then:
         response == protoSignUpResponse
@@ -43,7 +43,7 @@ class GatewayServiceTest extends Specification implements SampleProtoData {
         infrastructureService.signIn(protoSignInRequest) >> protoSignInResponse
 
         when:
-        def response = testSubject.get(protoSignInRequest)
+        def response = testSubject.get(sampleGatewayRequest(protoSignInRequest))
 
         then:
         response == protoSignInResponse
@@ -59,7 +59,7 @@ class GatewayServiceTest extends Specification implements SampleProtoData {
         infrastructureService.createRoom(protoCreateRoomRequest) >> protoCreateRoomResponse
 
         when:
-        def response = testSubject.get(protoCreateRoomRequest)
+        def response = testSubject.get(sampleGatewayRequest(protoCreateRoomRequest))
 
         then:
         response == protoCreateRoomResponse
@@ -75,7 +75,23 @@ class GatewayServiceTest extends Specification implements SampleProtoData {
         infrastructureService.searchRooms(protoListRoomRequest) >> protoListRoomResponse
 
         when:
-        def response = testSubject.get(protoListRoomRequest)
+        def response = testSubject.get(sampleGatewayRequest(protoListRoomRequest))
+
+        then:
+        response == protoListRoomResponse
+    }
+
+    def "when a gateway userSubscribedRoom request is performed, room-service is invoked"() {
+
+        given:
+        def protoUserRoomsRequest = sampleProtoUserRoomsRequest()
+        def protoListRoomResponse = sampleProtoListRoomResponse()
+
+        and:
+        infrastructureService.listRoom(protoUserRoomsRequest) >> protoListRoomResponse
+
+        when:
+        def response = testSubject.get(sampleGatewayRequest(protoUserRoomsRequest))
 
         then:
         response == protoListRoomResponse
@@ -91,7 +107,7 @@ class GatewayServiceTest extends Specification implements SampleProtoData {
         infrastructureService.subscribeToRoom(protoSubscribeRoomRequest) >> protoSubscribeRoomResponse
 
         when:
-        def response = testSubject.get(protoSubscribeRoomRequest)
+        def response = testSubject.get(sampleGatewayRequest(protoSubscribeRoomRequest))
 
         then:
         response == protoSubscribeRoomResponse

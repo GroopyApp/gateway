@@ -119,7 +119,6 @@ trait SampleProtoData {
                 longitude: "1",
                 hashtags_: new LazyStringArrayList(List.of("#test1", "#test2", "#test3", "#test4")),
                 languages_: new LazyStringArrayList(List.of("en-GB")),
-                userId: "testUser",
                 searchRangeInMeters: 1000
         ]
 
@@ -191,7 +190,41 @@ trait SampleProtoData {
         return builder.build()
     }
 
+    GatewayProto.UserRoomsRequest sampleProtoUserRoomsRequest(Map params = [:]) {
+        def defaultParams = [
+                userId: "test"
+        ]
+
+        def finalParams = defaultParams + params;
+        def builder = GatewayProto.UserRoomsRequest.newBuilder();
+        finalParams.forEach((key, value) -> {
+            builder[key] = value
+        })
+        return builder.build()
+    }
+    
+    GatewayProto.GatewayRequest sampleGatewayRequest(Message content) {
+        var requestBuilder = GatewayProto.GatewayRequest.newBuilder();
+        switch (content.getDescriptorForType().getName()) {
+            case "SignInRequest" -> requestBuilder.setSignInRequest((UserServiceProto.SignInRequest) content);
+            case "SignUpRequest" -> requestBuilder.setSignUpRequest((UserServiceProto.SignUpRequest) content);
+            case "CreateRoomRequest" -> requestBuilder.setCreateRoomRequest((RoomServiceProto.CreateRoomRequest) content);
+            case "ListRoomRequest" -> requestBuilder.setListRoomRequest((RoomServiceProto.ListRoomRequest) content);
+            case "UserRoomsRequest" -> requestBuilder.setUserRoomsRequest((GatewayProto.UserRoomsRequest) content);
+            case "SubscribeRoomRequest" -> requestBuilder.setSubscribeRoomRequest((RoomServiceProto.SubscribeRoomRequest) content);
+        }
+        return requestBuilder.build();
+    }
+
     GatewayProto.GatewayResponse sampleGatewayResponse(Message content) {
-        return GatewayProto.GatewayResponse.newBuilder().setResponse(Any.newBuilder().setValue(content.toByteString()).build()).build()
+        var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
+        switch (content.getDescriptorForType().getName()) {
+            case "SignInResponse" -> responseBuilder.setSignInResponse((UserServiceProto.SignInResponse) content);
+            case "SignUpResponse" -> responseBuilder.setSignUpResponse((UserServiceProto.SignUpResponse) content);
+            case "CreateRoomResponse" -> responseBuilder.setCreateRoomResponse((RoomServiceProto.CreateRoomResponse) content);
+            case "ListRoomResponse" -> responseBuilder.setListRoomResponse((RoomServiceProto.ListRoomResponse) content);
+            case "SubscribeRoomResponse" -> responseBuilder.setSubscribeRoomResponse((RoomServiceProto.SubscribeRoomResponse) content);
+        }
+        return responseBuilder.build();
     }
 }
