@@ -64,20 +64,20 @@ public class InfrastructureService {
     // UserService calls
     public Message signUp(UserServiceProto.SignUpRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending SignUpRequest message to user-service {}", req.toString());
+            LOGGER.info("sending SignUpRequest message to user-service");
             return internalServiceProvider.signUp(req);
         } catch (Exception e) {
-            LOGGER.error("An error occurred trying to call user-service with: {}", req);
+            LOGGER.error("An error occurred trying to call user-service");
             throw new InfrastructureException(GroopyService.USER_SERVICE, e.getLocalizedMessage());
         }
     }
 
     public Message signIn(UserServiceProto.SignInRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending SignUpRequest message to user-service {}", req.toString());
+            LOGGER.info("sending SignUpRequest message to user-service");
             return internalServiceProvider.signIn(req);
         } catch (Exception e) {
-            LOGGER.error("An error occurred trying to call user-service with: {}", req);
+            LOGGER.error("An error occurred trying to call user-service");
             throw new InfrastructureException(GroopyService.USER_SERVICE, e.getLocalizedMessage());
         }
     }

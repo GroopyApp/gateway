@@ -8,6 +8,7 @@ plugins {
 }
 
 apply plugin: 'groovy'
+apply plugin: 'idea'
 
 group = 'app.groopy'
 version = 1.0
@@ -40,6 +41,7 @@ configurations {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '3.0.4'
 	implementation 'net.devh:grpc-client-spring-boot-starter:2.12.0.RELEASE'
 
 	implementation 'app.groopy:groopy-commons:1.0.5'
