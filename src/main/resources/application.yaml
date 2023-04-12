@@ -8,7 +8,7 @@ room-service:
   host: "http://localhost:8090/"
 
 user-service:
-  host: "http://localhost:8091/"
+  host: "user-service.fly.dev:8091/"
 
 grpc:
   server:

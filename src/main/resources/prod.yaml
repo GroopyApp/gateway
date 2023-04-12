@@ -1,4 +1,5 @@
 server:
+  address: groopy-gateway.fly.dev
   port: 8095
 spring:
   application.name: groopy-gateway
@@ -9,8 +10,8 @@ grpc:
       enabled: false
   client:
     userService:
-      address: "static://user-service:8071"
+      address: "static://user-service-3zzv.onrender.com:8071"
       negotiationType: PLAINTEXT
     roomService:
-      address: "static://room-service:8070"
+      address: "static://room-service.fly.dev:443"
       negotiationType: PLAINTEXT

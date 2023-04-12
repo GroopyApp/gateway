@@ -13,7 +13,3 @@ services:
 networks:
   infrastructure:
     driver: bridge
-
-#volumes:
-#    cache:
-#      driver: local
