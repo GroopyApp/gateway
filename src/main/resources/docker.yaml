@@ -10,8 +10,8 @@ grpc:
       enabled: false
   client:
     userService:
-      address: "static://user-service:8071"
+      address: "static://0.0.0.0:8071"
       negotiationType: PLAINTEXT
     roomService:
-      address: "static://room-service:8070"
+      address: "static://0.0.0.0:8070"
       negotiationType: PLAINTEXT
