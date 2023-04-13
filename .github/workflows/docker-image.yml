@@ -14,5 +14,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USER}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD 
     - name: Build the Docker image
-      run: docker build --tag=gateway:latest --platform=linux/amd64 . && docker tag gateway:latest aledanna/gateway && docker push aledanna/gateway
+      run: docker build --tag=gateway:latest --platform=linux/amd64 .
+      
+    - name: Docker tag
+      run: docker tag gateway:latest aledanna/gateway
+      
+    - name: Docker Push
+      run: docker push aledanna/gateway
