@@ -20,7 +20,7 @@ jobs:
           username: ${{ secrets.SSH_DEV_USER }}
           key: ${{ secrets.SSH_DEV_KEY }}
           script: |
-                    cd groopy && run.sh
+                    cd groopy && bash run.sh
 
    on-failure:
      runs-on: ubuntu-latest
