@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    id: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -26,9 +25,13 @@ jobs:
       
     - name: Docker Push
       run: docker push aledanna/gateway
+    - name: Success
+      run: echo success
+
   deploy:
+    needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ steps.build.conclusion == 'success' }}
+    if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     steps:
       - run: echo "Docker image built successfully"
       - name: Deploy
