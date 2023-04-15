@@ -8,7 +8,7 @@ on:
      types: [completed]
 
 jobs:
-   on-success:
+   deploy:
      runs-on: ubuntu-latest
      if: ${{ github.event.workflow_run.conclusion == 'success' }}
      steps:
@@ -21,9 +21,3 @@ jobs:
           key: ${{ secrets.SSH_DEV_KEY }}
           script: |
                     cd groopy && bash run.sh
-
-   on-failure:
-     runs-on: ubuntu-latest
-     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-     steps:
-       - run: echo "Docker image build UNSUCCESSFULLY"
