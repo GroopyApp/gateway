@@ -27,8 +27,8 @@ jobs:
     - name: Docker Push
       run: docker push aledanna/gateway
   deploy:
+    needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ steps.build.conclusion == 'success' }}
     steps:
       - run: echo "Docker image built successfully"
       - name: Deploy
