@@ -7,8 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
+    id: build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -27,8 +27,9 @@ jobs:
     - name: Docker Push
       run: docker push aledanna/gateway
   deploy:
+    needs: [build]
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ steps.build.conclusion == 'success' }}
     steps:
       - run: echo "Docker image built successfully"
       - name: Deploy
