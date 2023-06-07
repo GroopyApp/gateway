@@ -14,7 +14,6 @@ import java.util.Map;
 public class InfrastructureException extends Throwable {
 
     @Getter GroopyService serviceName;
-    @Getter Integer statusCode;
     @Getter Map<String, String> parameters;
     @Getter HttpStatus status;
 
