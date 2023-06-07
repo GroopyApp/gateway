@@ -2,8 +2,8 @@ package app.groopy.gateway.presentation;
 
 import app.groopy.protobuf.GatewayProto;
 import app.groopy.gateway.application.GatewayService;
-import app.groopy.protobuf.RoomServiceProto;
 import app.groopy.protobuf.UserServiceProto;
+import app.groopy.protobuf.WallServiceProto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +35,10 @@ public class GatewayController {
         switch (result.getDescriptorForType().getName()) {
             case "SignInResponse" -> responseBuilder.setSignInResponse((UserServiceProto.SignInResponse) result);
             case "SignUpResponse" -> responseBuilder.setSignUpResponse((UserServiceProto.SignUpResponse) result);
-            case "CreateRoomResponse" -> responseBuilder.setCreateRoomResponse((RoomServiceProto.CreateRoomResponse) result);
-            case "ListRoomResponse" -> responseBuilder.setListRoomResponse((RoomServiceProto.ListRoomResponse) result);
-            case "SubscribeRoomResponse" -> responseBuilder.setSubscribeRoomResponse((RoomServiceProto.SubscribeRoomResponse) result);
+            case "GetTopicResponse" -> responseBuilder.setGetTopicResponse((WallServiceProto.GetTopicResponse) result);
+            case "GetWallResponse" -> responseBuilder.setGetWallResponse((WallServiceProto.GetWallResponse) result);
+            case "CreateTopicResponse" -> responseBuilder.setCreateTopicResponse((WallServiceProto.CreateTopicResponse) result);
+            case "CreateEventResponse" -> responseBuilder.setCreateEventResponse((WallServiceProto.CreateEventResponse) result);
         }
         return ResponseEntity.ok(responseBuilder.build());
     }

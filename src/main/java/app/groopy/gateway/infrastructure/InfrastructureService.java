@@ -5,6 +5,7 @@ import app.groopy.gateway.infrastructure.exceptions.InfrastructureException;
 import app.groopy.gateway.infrastructure.provider.InternalServiceProvider;
 import app.groopy.protobuf.*;
 import com.google.protobuf.Message;
+import io.grpc.StatusRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,46 +19,44 @@ public class InfrastructureService {
     @Autowired
     private InternalServiceProvider internalServiceProvider;
 
-    // RoomService calls
-    public Message createRoom(RoomServiceProto.CreateRoomRequest req) throws InfrastructureException {
+    // WallService calls
+    public Message createTopic(WallServiceProto.CreateTopicRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending CreateRoom message to room-service {}", req.toString());
-            return internalServiceProvider.createRoom(req);
-        } catch (Exception e) {
-            LOGGER.error("An error occurred trying to call room-service with: {}", req);
-            throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
+            LOGGER.info("sending CreateTopicRequest message to wall-service {}", req.toString());
+            return internalServiceProvider.createTopic(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call wall-service with: {}", req);
+            throw new InfrastructureException(GroopyService.WALL_SERVICE, e);
         }
     }
 
-    public Message subscribeToRoom(RoomServiceProto.SubscribeRoomRequest req) throws InfrastructureException {
+    public Message createEvent(WallServiceProto.CreateEventRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending SubscribeRoom message to room-service {}", req.toString());
-            return internalServiceProvider.subscribeRoom(req);
-        } catch (Exception e) {
-            LOGGER.error("An error occurred trying to call room-service with: {}", req);
-            throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
+            LOGGER.info("sending CreateEventRequest message to wall-service {}", req.toString());
+            return internalServiceProvider.createEvent(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call wall-service with: {}", req);
+            throw new InfrastructureException(GroopyService.WALL_SERVICE, e);
         }
     }
 
-    public Message searchRooms(RoomServiceProto.ListRoomRequest req) throws InfrastructureException {
+    public Message getWall(WallServiceProto.GetWallRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending ListRoomRequest message for search scope to room-service {}", req.toString());
-            return internalServiceProvider.searchRoom(req);
-        } catch (Exception e) {
-            LOGGER.error("An error occurred trying to call room-service with: {}", req);
-            throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
+            LOGGER.info("sending GetWallRequest message wall-service {}", req.toString());
+            return internalServiceProvider.getWall(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call wall-service with: {}", req);
+            throw new InfrastructureException(GroopyService.WALL_SERVICE, e);
         }
     }
 
-    public Message listRoom(GatewayProto.UserRoomsRequest req) throws InfrastructureException {
+    public Message getTopic(WallServiceProto.GetTopicRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending ListRoomRequest message for user list rooms scope to room-service {}", req.toString());
-            return internalServiceProvider.getUserRooms(RoomServiceProto.ListRoomRequest.newBuilder()
-                    .setUserId(req.getUserId())
-                    .build());
-        } catch (Exception e) {
-            LOGGER.error("An error occurred trying to call room-service with: {}", req);
-            throw new InfrastructureException(GroopyService.ROOM_SERVICE, e.getLocalizedMessage());
+            LOGGER.info("sending GetTopicRequest message wall-service {}", req.toString());
+            return internalServiceProvider.getTopic(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call wall-service with: {}", req);
+            throw new InfrastructureException(GroopyService.WALL_SERVICE, e);
         }
     }
 
@@ -66,9 +65,9 @@ public class InfrastructureService {
         try {
             LOGGER.info("sending SignUpRequest message to user-service");
             return internalServiceProvider.signUp(req);
-        } catch (Exception e) {
+        } catch (StatusRuntimeException e) {
             LOGGER.error("An error occurred trying to call user-service");
-            throw new InfrastructureException(GroopyService.USER_SERVICE, e.getLocalizedMessage());
+            throw new InfrastructureException(GroopyService.USER_SERVICE, e);
         }
     }
 
@@ -76,9 +75,9 @@ public class InfrastructureService {
         try {
             LOGGER.info("sending SignUpRequest message to user-service");
             return internalServiceProvider.signIn(req);
-        } catch (Exception e) {
+        } catch (StatusRuntimeException e) {
             LOGGER.error("An error occurred trying to call user-service");
-            throw new InfrastructureException(GroopyService.USER_SERVICE, e.getLocalizedMessage());
+            throw new InfrastructureException(GroopyService.USER_SERVICE, e);
         }
     }
 }

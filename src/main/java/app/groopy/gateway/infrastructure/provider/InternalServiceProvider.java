@@ -1,6 +1,6 @@
 package app.groopy.gateway.infrastructure.provider;
 
-import app.groopy.protobuf.RoomServiceProto;
+import app.groopy.protobuf.WallServiceProto;
 import app.groopy.protobuf.UserServiceProto;
 
 /**
@@ -9,13 +9,13 @@ import app.groopy.protobuf.UserServiceProto;
  */
 public interface InternalServiceProvider {
 
-    RoomServiceProto.CreateRoomResponse createRoom(RoomServiceProto.CreateRoomRequest request);
+    WallServiceProto.CreateTopicResponse createTopic(WallServiceProto.CreateTopicRequest request);
 
-    RoomServiceProto.SubscribeRoomResponse subscribeRoom(RoomServiceProto.SubscribeRoomRequest request);
+    WallServiceProto.CreateEventResponse createEvent(WallServiceProto.CreateEventRequest request);
 
-    RoomServiceProto.ListRoomResponse searchRoom(RoomServiceProto.ListRoomRequest request);
+    WallServiceProto.GetWallResponse getWall(WallServiceProto.GetWallRequest request);
 
-    RoomServiceProto.ListRoomResponse getUserRooms(RoomServiceProto.ListRoomRequest request);
+    WallServiceProto.GetTopicResponse getTopic(WallServiceProto.GetTopicRequest request);
 
     UserServiceProto.SignUpResponse signUp(UserServiceProto.SignUpRequest request);
 

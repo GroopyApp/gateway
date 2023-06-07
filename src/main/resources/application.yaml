@@ -4,7 +4,7 @@ server:
 spring:
   application.name: groopy-gateway
 
-room-service:
+wall-service:
   host: "http://localhost:8090/"
 
 user-service:
@@ -18,6 +18,6 @@ grpc:
     userService:
                 address: "static://localhost:8071"
                 negotiationType: PLAINTEXT
-    roomService:
+    wallService:
                 address: "static://localhost:8070"
                 negotiationType: PLAINTEXT

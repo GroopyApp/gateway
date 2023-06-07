@@ -1,9 +1,9 @@
 package app.groopy.gateway.infrastructure.provider;
 
-import app.groopy.protobuf.RoomServiceGrpc;
-import app.groopy.protobuf.RoomServiceProto;
 import app.groopy.protobuf.UserServiceGrpc;
 import app.groopy.protobuf.UserServiceProto;
+import app.groopy.protobuf.WallServiceGrpc;
+import app.groopy.protobuf.WallServiceProto;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
@@ -16,23 +16,23 @@ public class GrpcProvider implements InternalServiceProvider {
     @GrpcClient("userService")
     UserServiceGrpc.UserServiceBlockingStub userServiceStub;
 
-    @GrpcClient("roomService")
-    RoomServiceGrpc.RoomServiceBlockingStub roomServiceStub;
+    @GrpcClient("wallService")
+    WallServiceGrpc.WallServiceBlockingStub wallServiceStub;
 
-    public RoomServiceProto.CreateRoomResponse createRoom(RoomServiceProto.CreateRoomRequest request) {
-        return roomServiceStub.createRoom(request);
+    public WallServiceProto.CreateTopicResponse createTopic(WallServiceProto.CreateTopicRequest request) {
+        return wallServiceStub.createTopic(request);
     }
 
-    public RoomServiceProto.SubscribeRoomResponse subscribeRoom(RoomServiceProto.SubscribeRoomRequest request) {
-        return roomServiceStub.subscribe(request);
+    public WallServiceProto.CreateEventResponse createEvent(WallServiceProto.CreateEventRequest request) {
+        return wallServiceStub.createEvent(request);
     }
 
-    public RoomServiceProto.ListRoomResponse searchRoom(RoomServiceProto.ListRoomRequest request) {
-        return roomServiceStub.searchRoom(request);
+    public WallServiceProto.GetWallResponse getWall(WallServiceProto.GetWallRequest request) {
+        return wallServiceStub.getWall(request);
     }
 
-    public RoomServiceProto.ListRoomResponse getUserRooms(RoomServiceProto.ListRoomRequest request) {
-        return roomServiceStub.listRoom(request);
+    public WallServiceProto.GetTopicResponse getTopic(WallServiceProto.GetTopicRequest request) {
+        return wallServiceStub.getTopic(request);
     }
 
     public UserServiceProto.SignUpResponse signUp(UserServiceProto.SignUpRequest request) {

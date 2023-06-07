@@ -1,8 +1,8 @@
 package app.groopy.gateway.config;
 
 import app.groopy.protobuf.GatewayProto;
-import app.groopy.protobuf.RoomServiceProto;
 import app.groopy.protobuf.UserServiceProto;
+import app.groopy.protobuf.WallServiceProto;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -38,10 +38,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .add(GatewayProto.GatewayRequest.getDescriptor())
                 .add(GatewayProto.GatewayResponse.getDescriptor())
                 .add(GatewayProto.GatewayErrorResponse.getDescriptor())
-                .add(GatewayProto.UserRoomsRequest.getDescriptor())
-                .add(RoomServiceProto.CreateRoomRequest.getDescriptor())
-                .add(RoomServiceProto.ListRoomRequest.getDescriptor())
-                .add(RoomServiceProto.SubscribeRoomRequest.getDescriptor())
+                .add(WallServiceProto.CreateTopicRequest.getDescriptor())
+                .add(WallServiceProto.CreateEventRequest.getDescriptor())
+                .add(WallServiceProto.GetWallRequest.getDescriptor())
+                .add(WallServiceProto.GetWallRequest.getDescriptor())
                 .add(UserServiceProto.SignUpRequest.getDescriptor())
                 .add(UserServiceProto.SignInRequest.getDescriptor())
                 .add(Any.getDescriptor())

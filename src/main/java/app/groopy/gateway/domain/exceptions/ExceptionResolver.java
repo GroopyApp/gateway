@@ -6,8 +6,8 @@ public class ExceptionResolver {
 
     public static Throwable resolve(InfrastructureException ex) {
        return switch (ex.getServiceName()) {
-            case USER_SERVICE -> new UserServiceException(ex.getLocalizedMessage());
-            case ROOM_SERVICE -> new RoomServiceException(ex.getLocalizedMessage());
+            case USER_SERVICE -> new UserServiceException(ex.getLocalizedMessage(), ex.getParameters(), ex.getStatus());
+            case WALL_SERVICE -> new WallServiceException(ex.getLocalizedMessage(), ex.getParameters(), ex.getStatus());
         };
     }
 }
