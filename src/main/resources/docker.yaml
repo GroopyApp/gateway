@@ -12,6 +12,6 @@ grpc:
     userService:
       address: "static://userservice:8071"
       negotiationType: PLAINTEXT
-    roomService:
-      address: "static://roomservice:8070"
+    wallService:
+      address: "static://wallservice:8070"
       negotiationType: PLAINTEXT

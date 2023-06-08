@@ -12,6 +12,6 @@ grpc:
     userService:
       address: "static://user-service-3zzv.onrender.com:8071"
       negotiationType: PLAINTEXT
-    roomService:
-      address: "static://room-service.fly.dev:443"
+    wallService:
+      address: "static://wall-service.fly.dev:443"
       negotiationType: PLAINTEXT
