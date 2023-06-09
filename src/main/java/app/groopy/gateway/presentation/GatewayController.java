@@ -30,7 +30,7 @@ public class GatewayController {
     public ResponseEntity<GatewayProto.GatewayResponse> gateway(@RequestBody GatewayProto.GatewayRequest payload) {
         LOGGER.info("Processing message {}", payload);
 
-        var result = gatewayService.get(payload);
+        var result = gatewayService.process(payload);
         var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
         switch (result.getDescriptorForType().getName()) {
             case "SignInResponse" -> responseBuilder.setSignInResponse((UserServiceProto.SignInResponse) result);
@@ -39,6 +39,8 @@ public class GatewayController {
             case "GetWallResponse" -> responseBuilder.setGetWallResponse((WallServiceProto.GetWallResponse) result);
             case "CreateTopicResponse" -> responseBuilder.setCreateTopicResponse((WallServiceProto.CreateTopicResponse) result);
             case "CreateEventResponse" -> responseBuilder.setCreateEventResponse((WallServiceProto.CreateEventResponse) result);
+            case "SubscribeTopicResponse" -> responseBuilder.setSubscribeTopicResponse((WallServiceProto.SubscribeTopicResponse) result);
+            case "SubscribeEventResponse" -> responseBuilder.setSubscribeEventResponse((WallServiceProto.SubscribeEventResponse) result);
         }
         return ResponseEntity.ok(responseBuilder.build());
     }

@@ -28,7 +28,7 @@ public class GatewayService {
     }
 
     @SneakyThrows
-    public Message get(GatewayProto.GatewayRequest protoRequest) {
+    public Message process(GatewayProto.GatewayRequest protoRequest) {
         validator.validate(protoRequest);
         try {
             return switch (protoRequest.getRequestCase()) {
@@ -38,6 +38,8 @@ public class GatewayService {
                 case CREATETOPICREQUEST -> infrastructureService.createTopic(protoRequest.getCreateTopicRequest());
                 case CREATEEVENTREQUEST -> infrastructureService.createEvent(protoRequest.getCreateEventRequest());
                 case GETTOPICREQUEST -> infrastructureService.getTopic(protoRequest.getGetTopicRequest());
+                case SUBSCRIBETOPICREQUEST -> infrastructureService.subscribeTopic(protoRequest.getSubscribeTopicRequest());
+                case SUBSCRIBEEVENTREQUEST -> infrastructureService.subscribeEvent(protoRequest.getSubscribeEventRequest());
                 default -> throw new PayloadNotAllowedException(protoRequest);
             };
         } catch (InfrastructureException ex) {

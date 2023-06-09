@@ -60,6 +60,26 @@ public class InfrastructureService {
         }
     }
 
+    public Message subscribeTopic(WallServiceProto.SubscribeTopicRequest req) throws InfrastructureException {
+        try {
+            LOGGER.info("sending SubscribeTopicRequest message to wall-service");
+            return internalServiceProvider.subscribeTopic(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call wall-service");
+            throw new InfrastructureException(GroopyService.WALL_SERVICE, e);
+        }
+    }
+
+    public Message subscribeEvent(WallServiceProto.SubscribeEventRequest req) throws InfrastructureException {
+        try {
+            LOGGER.info("sending SubscribeEventRequest message to wall-service");
+            return internalServiceProvider.subscribeEvent(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call wall-service");
+            throw new InfrastructureException(GroopyService.WALL_SERVICE, e);
+        }
+    }
+
     // UserService calls
     public Message signUp(UserServiceProto.SignUpRequest req) throws InfrastructureException {
         try {

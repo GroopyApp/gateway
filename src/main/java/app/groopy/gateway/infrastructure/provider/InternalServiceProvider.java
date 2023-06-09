@@ -17,6 +17,10 @@ public interface InternalServiceProvider {
 
     WallServiceProto.GetTopicResponse getTopic(WallServiceProto.GetTopicRequest request);
 
+    WallServiceProto.SubscribeTopicResponse subscribeTopic(WallServiceProto.SubscribeTopicRequest request);
+
+    WallServiceProto.SubscribeEventResponse subscribeEvent(WallServiceProto.SubscribeEventRequest request);
+
     UserServiceProto.SignUpResponse signUp(UserServiceProto.SignUpRequest request);
 
     UserServiceProto.SignInResponse signIn(UserServiceProto.SignInRequest request);

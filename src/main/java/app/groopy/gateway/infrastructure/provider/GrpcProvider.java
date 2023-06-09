@@ -35,6 +35,14 @@ public class GrpcProvider implements InternalServiceProvider {
         return wallServiceStub.getTopic(request);
     }
 
+    public WallServiceProto.SubscribeTopicResponse subscribeTopic(WallServiceProto.SubscribeTopicRequest request) {
+        return wallServiceStub.subscribeTopic(request);
+    }
+
+    public WallServiceProto.SubscribeEventResponse subscribeEvent(WallServiceProto.SubscribeEventRequest request) {
+        return wallServiceStub.subscribeEvent(request);
+    }
+
     public UserServiceProto.SignUpResponse signUp(UserServiceProto.SignUpRequest request) {
         return userServiceStub.signUp(request);
     }
