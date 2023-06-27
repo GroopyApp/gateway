@@ -15,3 +15,6 @@ grpc:
     wallService:
       address: "static://wallservice:8070"
       negotiationType: PLAINTEXT
+    chatService:
+      address: "static://chatservice:8072"
+      negotiationType: PLAINTEXT
