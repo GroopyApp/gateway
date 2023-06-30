@@ -30,7 +30,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 return;
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

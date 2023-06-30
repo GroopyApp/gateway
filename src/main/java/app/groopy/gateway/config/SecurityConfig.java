@@ -26,12 +26,12 @@ public class SecurityConfig {
         return  http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v1/auth").permitAll()
-                        .requestMatchers("/v1/request").authenticated()
+                        .requestMatchers("/v1/request").permitAll() //TODO change this to authenticated
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(apiKeyAuthenticationFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(authTokenFilter, BasicAuthenticationFilter.class)
-//                .csrf(csrf -> csrf.ignoringRequestMatchers("/v1/request"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/v1/request"))
                 .build();
     }
 }
