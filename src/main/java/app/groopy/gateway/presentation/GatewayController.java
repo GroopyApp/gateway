@@ -24,10 +24,10 @@ public class GatewayController {
         this.gatewayService = gatewayService;
     }
 
-    @PostMapping(value = "/request",
+    @PostMapping(value = "/auth",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GatewayProto.GatewayResponse> gateway(@RequestBody GatewayProto.GatewayRequest payload) {
+    public ResponseEntity<GatewayProto.GatewayResponse> gatewayAuth(@RequestBody GatewayProto.GatewayRequest payload) {
         LOGGER.info("Processing message {}", payload);
 
         var result = gatewayService.process(payload);
@@ -35,6 +35,19 @@ public class GatewayController {
         switch (result.getDescriptorForType().getName()) {
             case "SignInResponse" -> responseBuilder.setSignInResponse((UserServiceProto.SignInResponse) result);
             case "SignUpResponse" -> responseBuilder.setSignUpResponse((UserServiceProto.SignUpResponse) result);
+        }
+        return ResponseEntity.ok(responseBuilder.build());
+    }
+
+    @PostMapping(value = "/request",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GatewayProto.GatewayResponse> gatewayRequest(@RequestBody GatewayProto.GatewayRequest payload) {
+        LOGGER.info("Processing message {}", payload);
+
+        var result = gatewayService.process(payload);
+        var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
+        switch (result.getDescriptorForType().getName()) {
             case "GetTopicResponse" -> responseBuilder.setGetTopicResponse((WallServiceProto.GetTopicResponse) result);
             case "GetWallResponse" -> responseBuilder.setGetWallResponse((WallServiceProto.GetWallResponse) result);
             case "CreateTopicResponse" -> responseBuilder.setCreateTopicResponse((WallServiceProto.CreateTopicResponse) result);

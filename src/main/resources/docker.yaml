@@ -18,3 +18,9 @@ grpc:
     chatService:
       address: "static://chatservice:8072"
       negotiationType: PLAINTEXT
+
+groopy:
+  app:
+    apiKey:
+      header: "x-api-key"
+      value: "ce602c1f-865f-44c2-bda0-184766fbb805"
