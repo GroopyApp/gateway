@@ -3,6 +3,8 @@ server:
   address: localhost
 spring:
   application.name: groopy-gateway
+  mvc:
+    dispatch-options-request: true
 
 grpc:
   server:

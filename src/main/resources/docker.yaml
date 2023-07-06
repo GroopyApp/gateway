@@ -1,8 +1,11 @@
 server:
   address: 0.0.0.0
   port: 8095
+
 spring:
   application.name: groopy-gateway
+  mvc:
+    dispatch-options-request: true
 
 grpc:
   server:
