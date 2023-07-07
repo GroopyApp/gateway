@@ -34,7 +34,7 @@ public class GatewayService {
             return switch (protoRequest.getRequestCase()) {
                 case SIGNINREQUEST -> infrastructureService.signIn(protoRequest.getSignInRequest());
                 case SIGNUPREQUEST -> infrastructureService.signUp(protoRequest.getSignUpRequest());
-                case GETWALLREQUEST -> infrastructureService.getWall(protoRequest.getGetWallRequest());
+                case WALLREQUEST -> infrastructureService.getWall(protoRequest.getWallRequest());
                 case CREATETOPICREQUEST -> infrastructureService.createTopic(protoRequest.getCreateTopicRequest());
                 case CREATEEVENTREQUEST -> infrastructureService.createEvent(protoRequest.getCreateEventRequest());
                 case GETTOPICREQUEST -> infrastructureService.getTopic(protoRequest.getGetTopicRequest());

@@ -27,7 +27,7 @@ public class GrpcProvider implements InternalServiceProvider {
         return wallServiceStub.createEvent(request);
     }
 
-    public WallServiceProto.GetWallResponse getWall(WallServiceProto.GetWallRequest request) {
+    public WallServiceProto.WallResponse getWall(WallServiceProto.WallRequest request) {
         return wallServiceStub.getWall(request);
     }
 

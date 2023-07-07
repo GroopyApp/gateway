@@ -40,9 +40,9 @@ public class InfrastructureService {
         }
     }
 
-    public Message getWall(WallServiceProto.GetWallRequest req) throws InfrastructureException {
+    public Message getWall(WallServiceProto.WallRequest req) throws InfrastructureException {
         try {
-            LOGGER.info("sending GetWallRequest message wall-service {}", req.toString());
+            LOGGER.info("sending WallRequest message to wall-service {}", req.toString());
             return internalServiceProvider.getWall(req);
         } catch (StatusRuntimeException e) {
             LOGGER.error("An error occurred trying to call wall-service with: {}", req);

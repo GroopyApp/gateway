@@ -13,7 +13,7 @@ message GatewayRequest {
     wallservice.CreateTopicRequest createTopicRequest = 3;
     wallservice.CreateEventRequest createEventRequest = 4;
     wallservice.GetTopicRequest getTopicRequest = 5;
-    wallservice.GetWallRequest getWallRequest = 6;
+    wallservice.WallRequest wallRequest = 6;
     wallservice.SubscribeTopicRequest subscribeTopicRequest = 7;
     wallservice.SubscribeEventRequest subscribeEventRequest = 8;
   }
@@ -26,7 +26,7 @@ message GatewayResponse {
     wallservice.CreateTopicResponse createTopicResponse = 3;
     wallservice.CreateEventResponse createEventResponse = 4;
     wallservice.GetTopicResponse getTopicResponse = 5;
-    wallservice.GetWallResponse getWallResponse = 6;
+    wallservice.WallResponse wallResponse = 6;
     wallservice.SubscribeTopicResponse subscribeTopicResponse = 7;
     wallservice.SubscribeEventResponse subscribeEventResponse = 8;
   }

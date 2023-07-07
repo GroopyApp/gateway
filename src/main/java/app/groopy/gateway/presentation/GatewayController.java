@@ -49,7 +49,7 @@ public class GatewayController {
         var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
         switch (result.getDescriptorForType().getName()) {
             case "GetTopicResponse" -> responseBuilder.setGetTopicResponse((WallServiceProto.GetTopicResponse) result);
-            case "GetWallResponse" -> responseBuilder.setGetWallResponse((WallServiceProto.GetWallResponse) result);
+            case "WallResponse" -> responseBuilder.setWallResponse((WallServiceProto.WallResponse) result);
             case "CreateTopicResponse" -> responseBuilder.setCreateTopicResponse((WallServiceProto.CreateTopicResponse) result);
             case "CreateEventResponse" -> responseBuilder.setCreateEventResponse((WallServiceProto.CreateEventResponse) result);
             case "SubscribeTopicResponse" -> responseBuilder.setSubscribeTopicResponse((WallServiceProto.SubscribeTopicResponse) result);

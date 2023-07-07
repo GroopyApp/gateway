@@ -13,7 +13,7 @@ public interface InternalServiceProvider {
 
     WallServiceProto.CreateEventResponse createEvent(WallServiceProto.CreateEventRequest request);
 
-    WallServiceProto.GetWallResponse getWall(WallServiceProto.GetWallRequest request);
+    WallServiceProto.WallResponse getWall(WallServiceProto.WallRequest request);
 
     WallServiceProto.GetTopicResponse getTopic(WallServiceProto.GetTopicRequest request);
 
