@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .addFilterBefore(corsFilter, CorsFilter.class)
                 .addFilterBefore(apiKeyAuthenticationFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(authTokenFilter, BasicAuthenticationFilter.class)
-                .csrf(csrf -> csrf.ignoringRequestMatchers("/v1/request"))
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/v1/**"))
                 .build();
     }
 }
