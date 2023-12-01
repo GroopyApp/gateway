@@ -100,4 +100,34 @@ public class InfrastructureService {
             throw new InfrastructureException(GroopyService.USER_SERVICE, e);
         }
     }
+
+    public Message getChatDetails(ChatServiceProto.ChatDetailsRequest req) throws InfrastructureException {
+        try {
+            LOGGER.info("sending ChatDetailsRequest message to chat-service");
+            return internalServiceProvider.getChats(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call chat-service");
+            throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
+        }
+    }
+
+    public Message createChatRoom(ChatServiceProto.CreateChatRoomRequest req) throws InfrastructureException {
+        try {
+            LOGGER.info("sending CreateChatRoomRequest message to chat-service");
+            return internalServiceProvider.createChatRoom(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call chat-service");
+            throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
+        }
+    }
+
+    public Message fireMessage(ChatServiceProto.ChatMessageRequest req) throws InfrastructureException {
+        try {
+            LOGGER.info("sending ChatMessageRequest message to chat-service");
+            return internalServiceProvider.fireMessage(req);
+        } catch (StatusRuntimeException e) {
+            LOGGER.error("An error occurred trying to call chat-service");
+            throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
+        }
+    }
 }

@@ -36,6 +36,7 @@ public class SecurityConfig {
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                         .requestMatchers("/v1/auth").permitAll()
                         .requestMatchers("/v1/request").permitAll() //TODO change this to authenticated
+                        .requestMatchers("/v1/chat").permitAll() //TODO change this to authenticated
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(corsFilter, CorsFilter.class)

@@ -17,12 +17,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private String AUTH_TOKEN_HEADER;
 
     private static final String REQUEST_ENDPOINT = "/request";
+    private static final String CHAT_ENDPOINT = "/chat";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         //TODO add logic to validate the token
-        if (request.getRequestURI().endsWith(REQUEST_ENDPOINT)) {
+        if (request.getRequestURI().endsWith(REQUEST_ENDPOINT) || request.getRequestURI().endsWith(CHAT_ENDPOINT)) {
             String authToken = request.getHeader(AUTH_TOKEN_HEADER);
 
             if (authToken == null) {

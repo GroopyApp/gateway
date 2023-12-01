@@ -19,6 +19,7 @@ message GatewayRequest {
     wallservice.SubscribeEventRequest subscribeEventRequest = 8;
     chatservice.ChatDetailsRequest chatDetailsRequest = 9;
     chatservice.CreateChatRoomRequest createChatRoomRequest = 10;
+    chatservice.ChatMessageRequest chatMessageRequest = 11;
   }
 }
 
@@ -34,10 +35,15 @@ message GatewayResponse {
     wallservice.SubscribeEventResponse subscribeEventResponse = 8;
     chatservice.ChatDetailsResponse chatDetailsResponse = 9;
     chatservice.CreateChatRoomResponse createChatRoomResponse = 10;
+    chatservice.StatusResponse chatMessageResponse = 11;
   }
 }
 
 message GatewayErrorResponse {
   string description = 1;
   map<string, string> parameters = 2;
+}
+
+message StatusResponse {
+  int32 status = 1;
 }

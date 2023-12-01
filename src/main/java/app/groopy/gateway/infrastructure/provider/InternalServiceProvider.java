@@ -1,5 +1,6 @@
 package app.groopy.gateway.infrastructure.provider;
 
+import app.groopy.protobuf.ChatServiceProto;
 import app.groopy.protobuf.WallServiceProto;
 import app.groopy.protobuf.UserServiceProto;
 
@@ -24,4 +25,10 @@ public interface InternalServiceProvider {
     UserServiceProto.SignUpResponse signUp(UserServiceProto.SignUpRequest request);
 
     UserServiceProto.SignInResponse signIn(UserServiceProto.SignInRequest request);
+
+    ChatServiceProto.ChatDetailsResponse getChats(ChatServiceProto.ChatDetailsRequest request);
+
+    ChatServiceProto.CreateChatRoomResponse createChatRoom(ChatServiceProto.CreateChatRoomRequest request);
+
+    ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request);
 }

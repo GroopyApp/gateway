@@ -40,6 +40,9 @@ public class GatewayService {
                 case GETTOPICREQUEST -> infrastructureService.getTopic(protoRequest.getGetTopicRequest());
                 case SUBSCRIBETOPICREQUEST -> infrastructureService.subscribeTopic(protoRequest.getSubscribeTopicRequest());
                 case SUBSCRIBEEVENTREQUEST -> infrastructureService.subscribeEvent(protoRequest.getSubscribeEventRequest());
+                case CHATDETAILSREQUEST -> infrastructureService.getChatDetails(protoRequest.getChatDetailsRequest());
+                case CREATECHATROOMREQUEST -> infrastructureService.createChatRoom(protoRequest.getCreateChatRoomRequest());
+                case CHATMESSAGEREQUEST -> infrastructureService.fireMessage(protoRequest.getChatMessageRequest());
                 default -> throw new PayloadNotAllowedException(protoRequest);
             };
         } catch (InfrastructureException ex) {
