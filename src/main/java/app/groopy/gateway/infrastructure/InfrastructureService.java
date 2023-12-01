@@ -101,6 +101,7 @@ public class InfrastructureService {
         }
     }
 
+    // ChatService calls
     public Message getChatDetails(ChatServiceProto.ChatDetailsRequest req) throws InfrastructureException {
         try {
             LOGGER.info("sending ChatDetailsRequest message to chat-service");
