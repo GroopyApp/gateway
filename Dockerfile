@@ -11,6 +11,6 @@ EXPOSE 8095
 RUN mkdir /app
 WORKDIR /app
 COPY . .
-RUN ./gradlew build
+RUN ./gradlew clean build
 
 ENTRYPOINT ["java","-jar","./build/libs/gateway-1.0.jar", "-spring.profiles.active=prod" ,"--spring.config.location=classpath:/docker.yaml"]
