@@ -32,17 +32,17 @@ public class GatewayService {
         validator.validate(protoRequest);
         try {
             return switch (protoRequest.getRequestCase()) {
-                case SIGNINREQUEST -> infrastructureService.signIn(protoRequest.getSignInRequest());
-                case SIGNUPREQUEST -> infrastructureService.signUp(protoRequest.getSignUpRequest());
-                case WALLREQUEST -> infrastructureService.getWall(protoRequest.getWallRequest());
-                case CREATETOPICREQUEST -> infrastructureService.createTopic(protoRequest.getCreateTopicRequest());
-                case CREATEEVENTREQUEST -> infrastructureService.createEvent(protoRequest.getCreateEventRequest());
-                case GETTOPICREQUEST -> infrastructureService.getTopic(protoRequest.getGetTopicRequest());
-                case SUBSCRIBETOPICREQUEST -> infrastructureService.subscribeTopic(protoRequest.getSubscribeTopicRequest());
-                case SUBSCRIBEEVENTREQUEST -> infrastructureService.subscribeEvent(protoRequest.getSubscribeEventRequest());
-                case CHATDETAILSREQUEST -> infrastructureService.getChatDetails(protoRequest.getChatDetailsRequest());
-                case CREATECHATROOMREQUEST -> infrastructureService.createChatRoom(protoRequest.getCreateChatRoomRequest());
-                case CHATMESSAGEREQUEST -> infrastructureService.fireMessage(protoRequest.getChatMessageRequest());
+                case SIGNINREQUEST -> infrastructureService.userService().signIn(protoRequest.getSignInRequest());
+                case SIGNUPREQUEST -> infrastructureService.userService().signUp(protoRequest.getSignUpRequest());
+                case WALLREQUEST -> infrastructureService.wallService().getWall(protoRequest.getWallRequest());
+                case CREATETOPICREQUEST -> infrastructureService.wallService().createTopic(protoRequest.getCreateTopicRequest());
+                case CREATEEVENTREQUEST -> infrastructureService.wallService().createEvent(protoRequest.getCreateEventRequest());
+                case GETTOPICREQUEST -> infrastructureService.wallService().getTopic(protoRequest.getGetTopicRequest());
+                case SUBSCRIBETOPICREQUEST -> infrastructureService.wallService().subscribeTopic(protoRequest.getSubscribeTopicRequest());
+                case SUBSCRIBEEVENTREQUEST -> infrastructureService.wallService().subscribeEvent(protoRequest.getSubscribeEventRequest());
+                case CHATDETAILSREQUEST -> infrastructureService.chatService().getChatDetails(protoRequest.getChatDetailsRequest());
+                case CREATECHATROOMREQUEST -> infrastructureService.chatService().createChatRoom(protoRequest.getCreateChatRoomRequest());
+                case CHATMESSAGEREQUEST -> infrastructureService.chatService().fireMessage(protoRequest.getChatMessageRequest());
                 default -> throw new PayloadNotAllowedException(protoRequest);
             };
         } catch (InfrastructureException ex) {
