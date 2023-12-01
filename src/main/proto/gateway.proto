@@ -2,6 +2,7 @@ syntax = "proto3";
 import "google/protobuf/any.proto";
 import "user.proto";
 import "wall.proto";
+import "chat.proto";
 package gateway;
 option java_package = "app.groopy.protobuf";
 option java_outer_classname = "GatewayProto";
@@ -16,6 +17,8 @@ message GatewayRequest {
     wallservice.WallRequest wallRequest = 6;
     wallservice.SubscribeTopicRequest subscribeTopicRequest = 7;
     wallservice.SubscribeEventRequest subscribeEventRequest = 8;
+    chatservice.ChatDetailsRequest chatDetailsRequest = 9;
+    chatservice.CreateChatRoomRequest createChatRoomRequest = 10;
   }
 }
 
@@ -29,6 +32,8 @@ message GatewayResponse {
     wallservice.WallResponse wallResponse = 6;
     wallservice.SubscribeTopicResponse subscribeTopicResponse = 7;
     wallservice.SubscribeEventResponse subscribeEventResponse = 8;
+    chatservice.ChatDetailsResponse chatDetailsResponse = 9;
+    chatservice.CreateChatRoomResponse createChatRoomResponse = 10;
   }
 }
 
