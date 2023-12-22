@@ -1,5 +1,6 @@
 package app.groopy.gateway.presentation;
 
+import app.groopy.protobuf.ChatServiceProto;
 import app.groopy.protobuf.GatewayProto;
 import app.groopy.gateway.application.GatewayService;
 import app.groopy.protobuf.UserServiceProto;
@@ -68,6 +69,22 @@ public class GatewayController {
             case "CreateEventResponse" -> responseBuilder.setCreateEventResponse((WallServiceProto.CreateEventResponse) result);
             case "SubscribeTopicResponse" -> responseBuilder.setSubscribeTopicResponse((WallServiceProto.SubscribeTopicResponse) result);
             case "SubscribeEventResponse" -> responseBuilder.setSubscribeEventResponse((WallServiceProto.SubscribeEventResponse) result);
+        }
+        return ResponseEntity.ok(responseBuilder.build());
+    }
+
+    @PostMapping(value = "/chat",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GatewayProto.GatewayResponse> chatRequest(@RequestBody GatewayProto.GatewayRequest payload) {
+        LOGGER.info("Processing message {}", payload);
+
+        var result = gatewayService.process(payload);
+        var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
+        switch (result.getDescriptorForType().getName()) {
+            case "ChatDetailsResponse" -> responseBuilder.setChatDetailsResponse((ChatServiceProto.ChatDetailsResponse) result);
+            case "CreateChatRoomResponse" -> responseBuilder.setCreateChatRoomResponse((ChatServiceProto.CreateChatRoomResponse) result);
+            case "StatusResponse" -> responseBuilder.setChatMessageResponse((ChatServiceProto.StatusResponse) result);
         }
         return ResponseEntity.ok(responseBuilder.build());
     }

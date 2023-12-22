@@ -1,9 +1,6 @@
 package app.groopy.gateway.infrastructure.provider;
 
-import app.groopy.protobuf.UserServiceGrpc;
-import app.groopy.protobuf.UserServiceProto;
-import app.groopy.protobuf.WallServiceGrpc;
-import app.groopy.protobuf.WallServiceProto;
+import app.groopy.protobuf.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +15,9 @@ public class GrpcProvider implements InternalServiceProvider {
 
     @GrpcClient("wallService")
     WallServiceGrpc.WallServiceBlockingStub wallServiceStub;
+
+    @GrpcClient("chatService")
+    ChatServiceGrpc.ChatServiceBlockingStub chatServiceStub;
 
     public WallServiceProto.CreateTopicResponse createTopic(WallServiceProto.CreateTopicRequest request) {
         return wallServiceStub.createTopic(request);
@@ -49,5 +49,20 @@ public class GrpcProvider implements InternalServiceProvider {
 
     public UserServiceProto.SignInResponse signIn(UserServiceProto.SignInRequest request) {
         return userServiceStub.signIn(request);
+    }
+
+    @Override
+    public ChatServiceProto.ChatDetailsResponse getChats(ChatServiceProto.ChatDetailsRequest request) {
+        return chatServiceStub.getDetails(request);
+    }
+
+    @Override
+    public ChatServiceProto.CreateChatRoomResponse createChatRoom(ChatServiceProto.CreateChatRoomRequest request) {
+        return chatServiceStub.createChannel(request);
+    }
+
+    @Override
+    public ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request) {
+        return chatServiceStub.sendMessage(request);
     }
 }

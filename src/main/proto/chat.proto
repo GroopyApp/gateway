@@ -6,6 +6,8 @@ option java_outer_classname = "ChatServiceProto";
 
 service ChatService {
   rpc createChannel (CreateChatRoomRequest) returns (CreateChatRoomResponse) {};
+  rpc getDetails (ChatDetailsRequest) returns (ChatDetailsResponse) {};
+  rpc sendMessage (ChatMessageRequest) returns (StatusResponse) {};
 }
 
 message CreateChatRoomRequest {
@@ -20,6 +22,32 @@ message CreateChatRoomResponse {
   string uuid = 3;
 }
 
+message ChatDetailsRequest {
+  repeated string ids = 1;
+}
+
+message ChatDetailsResponse {
+  repeated ChatDetails data = 1;
+}
+
+message ChatMessageRequest {
+  string sender_id = 1;
+  string body = 2;
+  string channel_id = 3;
+  string group_id = 4;
+}
+
+
+message ChatDetails {
+  string chat_id = 1;
+  string channel_name = 2;
+  string group_name = 3;
+}
+
 message ErrorResponse {
   map<string, string> parameters = 1;
+}
+
+message StatusResponse {
+  int32 status = 1;
 }
