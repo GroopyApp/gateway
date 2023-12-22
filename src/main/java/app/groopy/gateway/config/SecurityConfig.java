@@ -3,7 +3,6 @@ package app.groopy.gateway.config;
 import app.groopy.gateway.config.filters.ApiKeyAuthenticationFilter;
 import app.groopy.gateway.config.filters.AuthTokenFilter;
 import app.groopy.gateway.config.filters.CorsServiceFilter;
-import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.filter.CorsFilter;
 
@@ -34,13 +34,17 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                        .requestMatchers("/v1/auth").permitAll()
-                        .requestMatchers("/v1/request").permitAll() //TODO change this to authenticated
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                )
+                .securityContext((securityContext) -> securityContext
+                        .securityContextRepository(new RequestAttributeSecurityContextRepository())
+                )
+                .addFilterBefore(authTokenFilter, BasicAuthenticationFilter.class)
                 .addFilterBefore(corsFilter, CorsFilter.class)
                 .addFilterBefore(apiKeyAuthenticationFilter, BasicAuthenticationFilter.class)
-                .addFilterBefore(authTokenFilter, BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/v1/**"))
                 .build();
     }

@@ -4,12 +4,16 @@ import app.groopy.protobuf.GatewayProto;
 import app.groopy.gateway.application.GatewayService;
 import app.groopy.protobuf.UserServiceProto;
 import app.groopy.protobuf.WallServiceProto;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static app.groopy.gateway.config.Constants.AUTH_TOKEN_SESSION;
+import static app.groopy.gateway.config.Constants.USER_DETAILS_SESSION;
 
 @RestController
 @RequestMapping("/v1")
@@ -27,14 +31,24 @@ public class GatewayController {
     @PostMapping(value = "/auth",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GatewayProto.GatewayResponse> gatewayAuth(@RequestBody GatewayProto.GatewayRequest payload) {
+    public ResponseEntity<GatewayProto.GatewayResponse> gatewayAuth(@RequestBody GatewayProto.GatewayRequest payload, HttpServletRequest request) {
         LOGGER.info("Processing message {}", payload);
 
         var result = gatewayService.process(payload);
         var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
         switch (result.getDescriptorForType().getName()) {
-            case "SignInResponse" -> responseBuilder.setSignInResponse((UserServiceProto.SignInResponse) result);
-            case "SignUpResponse" -> responseBuilder.setSignUpResponse((UserServiceProto.SignUpResponse) result);
+            case "SignInResponse" -> {
+                UserServiceProto.SignInResponse response = (UserServiceProto.SignInResponse) result;
+                responseBuilder.setSignInResponse(response);
+                request.getSession().setAttribute(AUTH_TOKEN_SESSION, response.getToken());
+                request.getSession().setAttribute(USER_DETAILS_SESSION, response.getData());
+            }
+            case "SignUpResponse" -> {
+                UserServiceProto.SignUpResponse response = (UserServiceProto.SignUpResponse) result;
+                responseBuilder.setSignUpResponse(response);
+                request.getSession().setAttribute(AUTH_TOKEN_SESSION, response.getToken());
+                request.getSession().setAttribute(USER_DETAILS_SESSION, response.getData());
+            }
         }
         return ResponseEntity.ok(responseBuilder.build());
     }

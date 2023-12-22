@@ -24,8 +24,6 @@ grpc:
 
 groopy:
   app:
-    token:
-      header: "x-auth-token"
     apiKey:
       header: "x-api-key"
       value: "ce602c1f-865f-44c2-bda0-184766fbb805"
