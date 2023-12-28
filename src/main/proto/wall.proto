@@ -36,6 +36,7 @@ message CreateTopicRequest {
   string image_url = 4;
   repeated string categories = 5;
   string language = 6;
+  string user_id = 7;
 }
 
 message CreateTopicResponse {
@@ -59,6 +60,7 @@ message CreateEventRequest {
   string image_url = 5;
   string start_date = 6;
   string end_date = 7;
+  string user_id = 8;
 }
 
 message CreateEventResponse {

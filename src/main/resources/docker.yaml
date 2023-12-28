@@ -26,4 +26,4 @@ groopy:
   app:
     apiKey:
       header: "x-api-key"
-      value: "ce602c1f-865f-44c2-bda0-184766fbb805"
+      value: ${GATEWAY_API_KEY}

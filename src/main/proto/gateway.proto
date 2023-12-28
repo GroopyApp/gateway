@@ -7,19 +7,29 @@ package gateway;
 option java_package = "app.groopy.protobuf";
 option java_outer_classname = "GatewayProto";
 
-message GatewayRequest {
-  oneof request {
+message GatewayAuthRequest {
+  oneof auth {
     userservice.SignInRequest signInRequest = 1;
     userservice.SignUpRequest signUpRequest = 2;
-    wallservice.CreateTopicRequest createTopicRequest = 3;
-    wallservice.CreateEventRequest createEventRequest = 4;
-    wallservice.GetTopicRequest getTopicRequest = 5;
-    wallservice.WallRequest wallRequest = 6;
-    wallservice.SubscribeTopicRequest subscribeTopicRequest = 7;
-    wallservice.SubscribeEventRequest subscribeEventRequest = 8;
-    chatservice.ChatDetailsRequest chatDetailsRequest = 9;
-    chatservice.CreateChatRoomRequest createChatRoomRequest = 10;
-    chatservice.ChatMessageRequest chatMessageRequest = 11;
+  }
+}
+
+message GatewayWallRequest {
+  oneof wall {
+    wallservice.CreateTopicRequest createTopicRequest = 1;
+    wallservice.CreateEventRequest createEventRequest = 2;
+    wallservice.GetTopicRequest getTopicRequest = 3;
+    wallservice.WallRequest wallRequest = 4;
+    wallservice.SubscribeTopicRequest subscribeTopicRequest = 5;
+    wallservice.SubscribeEventRequest subscribeEventRequest = 6;
+  }
+}
+
+message GatewayChatRequest {
+  oneof chat {
+    chatservice.ChatDetailsRequest chatDetailsRequest = 1;
+    chatservice.CreateChatRoomRequest createChatRoomRequest = 2;
+    chatservice.ChatMessageRequest chatMessageRequest = 3;
   }
 }
 

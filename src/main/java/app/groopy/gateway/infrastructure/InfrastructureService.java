@@ -1,11 +1,14 @@
 package app.groopy.gateway.infrastructure;
 
 import app.groopy.gateway.domain.models.GroopyService;
+import app.groopy.gateway.domain.models.UserContextDto;
 import app.groopy.gateway.infrastructure.exceptions.InfrastructureException;
 import app.groopy.gateway.infrastructure.provider.InternalServiceProvider;
 import app.groopy.protobuf.*;
 import com.google.protobuf.Message;
 import io.grpc.StatusRuntimeException;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +22,14 @@ public class InfrastructureService {
     @Autowired
     private InternalServiceProvider internalServiceProvider;
 
+    @AllArgsConstructor
     public class WallService {
+
+        private UserContextDto userContext;
         public Message createTopic(WallServiceProto.CreateTopicRequest req) throws InfrastructureException {
             try {
-                LOGGER.info("sending CreateTopicRequest message to wall-service {}", req.toString());
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
+                LOGGER.info("sending CreateTopicRequest message to wall-service {}", req);
                 return internalServiceProvider.createTopic(req);
             } catch (StatusRuntimeException e) {
                 LOGGER.error("An error occurred trying to call wall-service with: {}", req);
@@ -32,7 +39,8 @@ public class InfrastructureService {
 
         public Message createEvent(WallServiceProto.CreateEventRequest req) throws InfrastructureException {
             try {
-                LOGGER.info("sending CreateEventRequest message to wall-service {}", req.toString());
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
+                LOGGER.info("sending CreateEventRequest message to wall-service {}", req);
                 return internalServiceProvider.createEvent(req);
             } catch (StatusRuntimeException e) {
                 LOGGER.error("An error occurred trying to call wall-service with: {}", req);
@@ -42,7 +50,7 @@ public class InfrastructureService {
 
         public Message getWall(WallServiceProto.WallRequest req) throws InfrastructureException {
             try {
-                LOGGER.info("sending WallRequest message to wall-service {}", req.toString());
+                LOGGER.info("sending WallRequest message to wall-service {}", req);
                 return internalServiceProvider.getWall(req);
             } catch (StatusRuntimeException e) {
                 LOGGER.error("An error occurred trying to call wall-service with: {}", req);
@@ -62,6 +70,7 @@ public class InfrastructureService {
 
         public Message subscribeTopic(WallServiceProto.SubscribeTopicRequest req) throws InfrastructureException {
             try {
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
                 LOGGER.info("sending SubscribeTopicRequest message to wall-service");
                 return internalServiceProvider.subscribeTopic(req);
             } catch (StatusRuntimeException e) {
@@ -72,6 +81,7 @@ public class InfrastructureService {
 
         public Message subscribeEvent(WallServiceProto.SubscribeEventRequest req) throws InfrastructureException {
             try {
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
                 LOGGER.info("sending SubscribeEventRequest message to wall-service");
                 return internalServiceProvider.subscribeEvent(req);
             } catch (StatusRuntimeException e) {
@@ -103,7 +113,11 @@ public class InfrastructureService {
         }
     }
 
+    @AllArgsConstructor
     public class ChatService {
+
+        private UserContextDto userContext;
+
         public Message getChatDetails(ChatServiceProto.ChatDetailsRequest req) throws InfrastructureException {
             try {
                 LOGGER.info("sending ChatDetailsRequest message to chat-service");
@@ -126,6 +140,7 @@ public class InfrastructureService {
 
         public Message fireMessage(ChatServiceProto.ChatMessageRequest req) throws InfrastructureException {
             try {
+                req = req.toBuilder().setSenderId(userContext.getUserId()).build();
                 LOGGER.info("sending ChatMessageRequest message to chat-service");
                 return internalServiceProvider.fireMessage(req);
             } catch (StatusRuntimeException e) {
@@ -135,15 +150,15 @@ public class InfrastructureService {
         }
     }
 
-    public WallService wallService() {
-        return new WallService();
+    public WallService wallService(UserContextDto userContext) {
+        return new WallService(userContext);
     }
 
     public UserService userService() {
         return new UserService();
     }
 
-    public ChatService chatService() {
-        return new ChatService();
+    public ChatService chatService(UserContextDto userContext) {
+        return new ChatService(userContext);
     }
 }
