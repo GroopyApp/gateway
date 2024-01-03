@@ -2,6 +2,8 @@ server:
   port: 8095
   address: localhost
 spring:
+  config:
+    import: file:.env[.properties]
   application.name: groopy-gateway
   mvc:
     dispatch-options-request: true
