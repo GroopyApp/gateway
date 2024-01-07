@@ -21,6 +21,9 @@ grpc:
     chatService:
       address: "static://chatservice:8072"
       negotiationType: PLAINTEXT
+    threadsService:
+      address: "static://threadsservice:8073"
+      negotiationType: PLAINTEXT
 
 groopy:
   app:
