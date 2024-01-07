@@ -120,18 +120,9 @@ public class InfrastructureService {
 
         public Message getChatDetails(ChatServiceProto.ChatDetailsRequest req) throws InfrastructureException {
             try {
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
                 LOGGER.info("sending ChatDetailsRequest message to chat-service");
                 return internalServiceProvider.getChats(req);
-            } catch (StatusRuntimeException e) {
-                LOGGER.error("An error occurred trying to call chat-service");
-                throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
-            }
-        }
-
-        public Message createChatRoom(ChatServiceProto.CreateChatRoomRequest req) throws InfrastructureException {
-            try {
-                LOGGER.info("sending CreateChatRoomRequest message to chat-service");
-                return internalServiceProvider.createChatRoom(req);
             } catch (StatusRuntimeException e) {
                 LOGGER.error("An error occurred trying to call chat-service");
                 throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
@@ -150,6 +141,22 @@ public class InfrastructureService {
         }
     }
 
+    @AllArgsConstructor
+    public class ThreadsService {
+
+        private UserContextDto userContext;
+
+        public Message postThread(ThreadsServiceProto.PostThreadRequest req) throws InfrastructureException {
+            try {
+                LOGGER.info("sending PostThreadRequest message to threads-service");
+                return internalServiceProvider.postThread(req);
+            } catch (StatusRuntimeException e) {
+                LOGGER.error("An error occurred trying to call threads-service");
+                throw new InfrastructureException(GroopyService.THREADS_SERVICE, e);
+            }
+        }
+    }
+
     public WallService wallService(UserContextDto userContext) {
         return new WallService(userContext);
     }
@@ -161,4 +168,9 @@ public class InfrastructureService {
     public ChatService chatService(UserContextDto userContext) {
         return new ChatService(userContext);
     }
+
+    public ThreadsService threadsService(UserContextDto userContext) {
+        return new ThreadsService(userContext);
+    }
+
 }

@@ -19,6 +19,9 @@ public class GrpcProvider implements InternalServiceProvider {
     @GrpcClient("chatService")
     ChatServiceGrpc.ChatServiceBlockingStub chatServiceStub;
 
+    @GrpcClient("threadsService")
+    ThreadsServiceGrpc.ThreadsServiceBlockingStub threadsServiceStub;
+
     public WallServiceProto.CreateTopicResponse createTopic(WallServiceProto.CreateTopicRequest request) {
         return wallServiceStub.createTopic(request);
     }
@@ -64,5 +67,10 @@ public class GrpcProvider implements InternalServiceProvider {
     @Override
     public ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request) {
         return chatServiceStub.sendMessage(request);
+    }
+
+    @Override
+    public ThreadsServiceProto.StatusResponse postThread(ThreadsServiceProto.PostThreadRequest request) {
+        return threadsServiceStub.postThread(request);
     }
 }

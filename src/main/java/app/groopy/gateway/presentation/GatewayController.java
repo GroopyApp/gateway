@@ -1,11 +1,9 @@
 package app.groopy.gateway.presentation;
 
+import app.groopy.gateway.config.Constants;
 import app.groopy.gateway.domain.models.UserContextDto;
-import app.groopy.protobuf.ChatServiceProto;
-import app.groopy.protobuf.GatewayProto;
+import app.groopy.protobuf.*;
 import app.groopy.gateway.application.GatewayService;
-import app.groopy.protobuf.UserServiceProto;
-import app.groopy.protobuf.WallServiceProto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
@@ -15,8 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static app.groopy.gateway.config.Constants.AUTH_TOKEN_SESSION;
-import static app.groopy.gateway.config.Constants.USER_DETAILS_SESSION;
+import static app.groopy.gateway.config.Constants.*;
 
 @RestController
 @RequestMapping("/v1")
@@ -31,7 +28,7 @@ public class GatewayController {
         this.gatewayService = gatewayService;
     }
 
-    @PostMapping(value = "/auth",
+    @PostMapping(value = AUTH_ENDPOINT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GatewayProto.GatewayResponse> gatewayAuth(@RequestBody GatewayProto.GatewayAuthRequest payload, HttpServletRequest request) {
@@ -56,7 +53,7 @@ public class GatewayController {
         return ResponseEntity.ok(responseBuilder.build());
     }
 
-    @PostMapping(value = "/wall",
+    @PostMapping(value = Constants.WALL_ENDPOINT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GatewayProto.GatewayResponse> gatewayRequest(@RequestBody GatewayProto.GatewayWallRequest payload, HttpServletRequest request) {
@@ -75,7 +72,7 @@ public class GatewayController {
         return ResponseEntity.ok(responseBuilder.build());
     }
 
-    @PostMapping(value = "/chat",
+    @PostMapping(value = CHAT_ENDPOINT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GatewayProto.GatewayResponse> chatRequest(@RequestBody GatewayProto.GatewayChatRequest payload, HttpServletRequest request) {
@@ -85,8 +82,21 @@ public class GatewayController {
         var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
         switch (result.getDescriptorForType().getName()) {
             case "ChatDetailsResponse" -> responseBuilder.setChatDetailsResponse((ChatServiceProto.ChatDetailsResponse) result);
-            case "CreateChatRoomResponse" -> responseBuilder.setCreateChatRoomResponse((ChatServiceProto.CreateChatRoomResponse) result);
             case "StatusResponse" -> responseBuilder.setChatMessageResponse((ChatServiceProto.StatusResponse) result);
+        }
+        return ResponseEntity.ok(responseBuilder.build());
+    }
+
+    @PostMapping(value = THREADS_ENDPOINT,
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GatewayProto.GatewayResponse> threadsRequest(@RequestBody GatewayProto.GatewayThreadsRequest payload, HttpServletRequest request) {
+        LOGGER.info("Processing message {}", payload);
+
+        var result = gatewayService.process(payload, buildUserContext(request.getSession()));
+        var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
+        switch (result.getDescriptorForType().getName()) {
+            case "StatusResponse" -> responseBuilder.setThreadsStatusResponse((ThreadsServiceProto.StatusResponse) result);
         }
         return ResponseEntity.ok(responseBuilder.build());
     }

@@ -68,8 +68,21 @@ public class GatewayService {
         try {
             return switch (protoRequest.getChatCase()) {
                 case CHATDETAILSREQUEST -> infrastructureService.chatService(userContext).getChatDetails(protoRequest.getChatDetailsRequest());
-                case CREATECHATROOMREQUEST -> infrastructureService.chatService(userContext).createChatRoom(protoRequest.getCreateChatRoomRequest());
                 case CHATMESSAGEREQUEST -> infrastructureService.chatService(userContext).fireMessage(protoRequest.getChatMessageRequest());
+                default -> throw new PayloadNotAllowedException(protoRequest);
+            };
+        } catch (InfrastructureException ex) {
+            LOGGER.error(String.format("an error occurred trying to call internal service %s", ex.getServiceName()), ex);
+            throw ExceptionResolver.resolve(ex);
+        }
+    }
+
+    @SneakyThrows
+    public Message process(GatewayProto.GatewayThreadsRequest protoRequest, UserContextDto userContext) {
+        validator.validate(protoRequest);
+        try {
+            return switch (protoRequest.getThreadsCase()) {
+                case POSTTHREADREQUEST -> infrastructureService.threadsService(userContext).postThread(protoRequest.getPostThreadRequest());
                 default -> throw new PayloadNotAllowedException(protoRequest);
             };
         } catch (InfrastructureException ex) {

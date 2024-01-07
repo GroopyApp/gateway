@@ -1,8 +1,10 @@
 package app.groopy.gateway.infrastructure.provider;
 
 import app.groopy.protobuf.ChatServiceProto;
+import app.groopy.protobuf.ThreadsServiceProto;
 import app.groopy.protobuf.WallServiceProto;
 import app.groopy.protobuf.UserServiceProto;
+import com.google.protobuf.Message;
 
 /**
  * API interface for defining contract and functionalities that can be called from gateway to the internal services.
@@ -31,4 +33,6 @@ public interface InternalServiceProvider {
     ChatServiceProto.CreateChatRoomResponse createChatRoom(ChatServiceProto.CreateChatRoomRequest request);
 
     ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request);
+
+    ThreadsServiceProto.StatusResponse postThread(ThreadsServiceProto.PostThreadRequest request);
 }

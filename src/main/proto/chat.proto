@@ -23,7 +23,8 @@ message CreateChatRoomResponse {
 }
 
 message ChatDetailsRequest {
-  repeated string ids = 1;
+  string user_id = 1;
+  repeated string ids = 2;
 }
 
 message ChatDetailsResponse {

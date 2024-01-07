@@ -16,4 +16,8 @@ public class GatewayValidator {
     public void validate(GatewayProto.GatewayChatRequest request) {
         //TODO implement this
     }
+
+    public void validate(GatewayProto.GatewayThreadsRequest request) {
+        //TODO implement this
+    }
 }

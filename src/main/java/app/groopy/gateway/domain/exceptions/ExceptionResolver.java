@@ -9,6 +9,7 @@ public class ExceptionResolver {
             case USER_SERVICE -> new UserServiceException(ex.getLocalizedMessage(), ex.getParameters(), ex.getStatus());
             case WALL_SERVICE -> new WallServiceException(ex.getLocalizedMessage(), ex.getParameters(), ex.getStatus());
             case CHAT_SERVICE -> new ChatServiceException(ex.getLocalizedMessage(), ex.getParameters(), ex.getStatus());
+            case THREADS_SERVICE -> new ThreadsServiceException(ex.getLocalizedMessage(), ex.getParameters(), ex.getStatus());
        };
     }
 }
