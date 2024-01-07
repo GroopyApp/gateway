@@ -139,6 +139,17 @@ public class InfrastructureService {
                 throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
             }
         }
+
+        public Message getHistory(ChatServiceProto.ChatHistoryRequest req) throws InfrastructureException {
+            try {
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
+                LOGGER.info("sending ChatHistoryRequest message to chat-service");
+                return internalServiceProvider.getHistory(req);
+            } catch (StatusRuntimeException e) {
+                LOGGER.error("An error occurred trying to call chat-service");
+                throw new InfrastructureException(GroopyService.CHAT_SERVICE, e);
+            }
+        }
     }
 
     @AllArgsConstructor

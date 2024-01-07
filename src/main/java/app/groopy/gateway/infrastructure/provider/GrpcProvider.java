@@ -60,13 +60,13 @@ public class GrpcProvider implements InternalServiceProvider {
     }
 
     @Override
-    public ChatServiceProto.CreateChatRoomResponse createChatRoom(ChatServiceProto.CreateChatRoomRequest request) {
-        return chatServiceStub.createChannel(request);
+    public ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request) {
+        return chatServiceStub.sendMessage(request);
     }
 
     @Override
-    public ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request) {
-        return chatServiceStub.sendMessage(request);
+    public ChatServiceProto.ChatHistoryResponse getHistory(ChatServiceProto.ChatHistoryRequest request) {
+        return chatServiceStub.getHistory(request);
     }
 
     @Override

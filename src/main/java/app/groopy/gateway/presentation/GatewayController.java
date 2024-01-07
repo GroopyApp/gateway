@@ -82,6 +82,7 @@ public class GatewayController {
         var responseBuilder = GatewayProto.GatewayResponse.newBuilder();
         switch (result.getDescriptorForType().getName()) {
             case "ChatDetailsResponse" -> responseBuilder.setChatDetailsResponse((ChatServiceProto.ChatDetailsResponse) result);
+            case "ChatHistoryResponse" -> responseBuilder.setChatHistoryResponse((ChatServiceProto.ChatHistoryResponse) result);
             case "StatusResponse" -> responseBuilder.setChatMessageResponse((ChatServiceProto.StatusResponse) result);
         }
         return ResponseEntity.ok(responseBuilder.build());

@@ -69,6 +69,7 @@ public class GatewayService {
             return switch (protoRequest.getChatCase()) {
                 case CHATDETAILSREQUEST -> infrastructureService.chatService(userContext).getChatDetails(protoRequest.getChatDetailsRequest());
                 case CHATMESSAGEREQUEST -> infrastructureService.chatService(userContext).fireMessage(protoRequest.getChatMessageRequest());
+                case CHATHISTORYREQUEST -> infrastructureService.chatService(userContext).getHistory(protoRequest.getChatHistoryRequest());
                 default -> throw new PayloadNotAllowedException(protoRequest);
             };
         } catch (InfrastructureException ex) {

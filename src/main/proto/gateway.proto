@@ -30,6 +30,7 @@ message GatewayChatRequest {
   oneof chat {
     chatservice.ChatDetailsRequest chatDetailsRequest = 1;
     chatservice.ChatMessageRequest chatMessageRequest = 2;
+    chatservice.ChatHistoryRequest chatHistoryRequest = 3;
   }
 }
 
@@ -51,7 +52,8 @@ message GatewayResponse {
     wallservice.SubscribeEventResponse subscribeEventResponse = 8;
     chatservice.ChatDetailsResponse chatDetailsResponse = 9;
     chatservice.StatusResponse chatMessageResponse = 10;
-    threadsservice.StatusResponse threadsStatusResponse = 11;
+    chatservice.ChatHistoryResponse chatHistoryResponse = 11;
+    threadsservice.StatusResponse threadsStatusResponse = 12;
   }
 }
 

@@ -30,9 +30,9 @@ public interface InternalServiceProvider {
 
     ChatServiceProto.ChatDetailsResponse getChats(ChatServiceProto.ChatDetailsRequest request);
 
-    ChatServiceProto.CreateChatRoomResponse createChatRoom(ChatServiceProto.CreateChatRoomRequest request);
-
     ChatServiceProto.StatusResponse fireMessage(ChatServiceProto.ChatMessageRequest request);
+
+    ChatServiceProto.ChatHistoryResponse getHistory(ChatServiceProto.ChatHistoryRequest request);
 
     ThreadsServiceProto.StatusResponse postThread(ThreadsServiceProto.PostThreadRequest request);
 }
