@@ -148,6 +148,7 @@ public class InfrastructureService {
 
         public Message postThread(ThreadsServiceProto.PostThreadRequest req) throws InfrastructureException {
             try {
+                req = req.toBuilder().setUserId(userContext.getUserId()).build();
                 LOGGER.info("sending PostThreadRequest message to threads-service");
                 return internalServiceProvider.postThread(req);
             } catch (StatusRuntimeException e) {
