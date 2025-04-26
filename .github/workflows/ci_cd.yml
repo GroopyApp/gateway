@@ -41,4 +41,4 @@ jobs:
           username: ${{ secrets.SSH_DEV_USER }}
           key: ${{ secrets.SSH_DEV_KEY }}
           script: |
-            cd ~/dev/groopy && bash run.sh
+            cd ~/eventify && bash run.sh
